@@ -1,0 +1,25 @@
+﻿{
+    "manifest_version": 2,
+
+    "name": "SecurityMsgViewer",
+    "version": "1.0",
+
+    "icons": {
+        "16": "16x16.ico"
+    },
+    "content_scripts": [
+        {
+            "run_at": "document_idle",
+            "matches": [ "*://new.vk.com/*", "*://vk.com/*" ],
+            "js": [ "jquery-3.1.0.min.js", "content.js" ],
+            "css": [ "styles.css" ]
+        }
+    ],
+
+    "browser_action": {
+        "default_title": "",
+        "default_icon": "16x16.ico",
+        "default_popup": "popup.html"
+    }
+
+}

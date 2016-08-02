@@ -1,0 +1,34 @@
+﻿.unread-message-tooltip{
+    position: fixed;
+    width:320px;
+    top: 100px;
+    left:20px;
+    display: none;
+    word-wrap:break-word;
+    background-color: white;
+    border: 1px #507299 solid;
+    border-radius:5px;
+    box-shadow: 0 0 10px rgba(80, 114, 153, 0.5);
+    padding:10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-overflow: ellipsis;
+    max-height: 70%;
+}
+
+.unread-message-tooltip .im-mess{
+    padding-right: 10px;
+}
+.unread-message-tooltip .ui_clean_list.im-mess-stack--mess{
+    padding-left: 10px;
+}
+.unread-message-tooltip .im-mess .im-mess--text{
+    margin-left: 50px;
+}
+
+.unread-message-tooltip .im-mess-stack .im-mess-stack--photo{
+    left: 10px;
+}
+.unread-message-tooltip .im-mess-stack .im-mess-stack--content .im-mess-stack--pname{
+    left: 57px
+}
