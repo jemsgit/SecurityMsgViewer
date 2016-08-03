@@ -1,0 +1,18 @@
+﻿body{
+    min-width: 150px;
+}
+
+.header{
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: #507299;
+}
+
+.checkbox-set{
+    padding: 10px;
+}
+
+.checkbox-set .switch-title{
+    font-size:16px;
+}
