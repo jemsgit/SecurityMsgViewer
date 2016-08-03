@@ -5,7 +5,7 @@
     "version": "1.0",
 
     "icons": {
-        "16": "16x16.ico"
+        "128": "icons/128x128.png"
     },
     "content_scripts": [
         {
@@ -18,7 +18,7 @@
 
     "browser_action": {
         "default_title": "",
-        "default_icon": "16x16.ico",
+        "default_icon": "icons/128x128.png",
         "default_popup": "popup.html"
     }
 
