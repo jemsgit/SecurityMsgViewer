@@ -1,11 +1,12 @@
 ﻿(function ($) {
+    debugger;
     var $body = $('body'),
         elementClass = 'unread-message-tooltip',
         $tooltip = $body.find('.' + elementClass),
         showTimer,
         hideTimer,
         dataPeer,
-        dataMsgid;
+        showInterval = 300;
 
     if (!$tooltip.length) {
         $tooltip = $('<div class = "' + elementClass + '"></div>');
@@ -37,20 +38,33 @@
         data = JSON.parse(data);
         item = $(data.history).filter(function () { return $(this).attr('data-peer') == dataPeer })
         item = item.last();
-        $tooltip.html(item);
 
-        if (hideTimer) {
+        if (item.length > 0 && hideTimer) {
             clearTimeout(hideTimer)
         }
-        clearTimeout(showTimer);
+        if (showTimer) {
+            clearTimeout(showTimer);
+        }
         showTimer = setTimeout(function () {
             if (item.length > 0) {
+                $tooltip.html(item);
                 $tooltip.show();
             }
-        }, 300);
+        }, showInterval);
 
     }
 
+    function hideBlock(showTimerId) {
+        if (showTimer) {
+            clearTimeout(showTimer);
+        }
+        var hideTimer = setTimeout(function () {
+            $tooltip.hide();
+            $tooltip.html("");
+        }, showInterval)
+
+        return hideTimer;
+    }
 
     $body.on('mouseenter', '.dialogs_row', function (event) {
         var target = $(event.target);
@@ -87,14 +101,8 @@
         if (e && e.parentNode == this || e == this) {
             return;
         }
-        if (showTimer) {
-            clearTimeout(showTimer);
-        }
-        hideTimer = setTimeout(function () {
-            $tooltip.html("");
-            $tooltip.hide()
-        }, 300)
 
+        hideTimer = hideBlock(showTimer);
     })
 
     $body.on('mouseenter', '.unread-message-tooltip', function (event) {
@@ -104,13 +112,7 @@
     })
 
     $body.on('mouseleave', '.unread-message-tooltip', function (event) {
-        if (showTimer) {
-            clearTimeout(showTimer);
-        }
-        hideTimer = setTimeout(function () {
-            $tooltip.html("");
-            $tooltip.hide()
-        }, 300)
+        hideTimer = hideBlock(showTimer);
     })
 
 })(jQuery)
