@@ -1,5 +1,6 @@
 ﻿body{
     min-width: 150px;
+    margin:4px;
 }
 
 .header{
@@ -7,12 +8,62 @@
     line-height: 40px;
     text-align: center;
     background-color: #507299;
+    border-radius: 2px;
+}
+
+.header h1{
+    margin: 2px;
 }
 
 .checkbox-set{
     padding: 10px;
+    position: relative;
 }
 
 .checkbox-set .switch-title{
     font-size:16px;
+}
+.checkbox-set .switch-checkbox{
+    position: relative;
+}
+
+.checkbox-set .switch-switch{
+    margin-top: 5px;
+    display: block;
+    height: 24px;
+    width: 45px;
+    background-color: #6d95de;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: inset 0 2px 3px rgba(0,0,0,.2);
+}
+
+.checkbox-set input:not(checked){
+    position:absolute;
+    display: none;
+}
+
+.checkbox-set input:not(checked) + .switch-switch:after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background: #FFF;
+  box-shadow: 0 2px 5px rgba(0,0,0,.3);
+  transition: all .2s;
+}
+
+.checkbox-set input:checked + .switch-switch {
+  background: #9FD468;
+}
+
+.checkbox-set input:checked + .switch-switch:after {
+  left: 23px;
+}
+
+.checkbox-set input:focus + label:before {
+  box-shadow: 0 0 0 3px rgba(255,255,0,.5);
 }

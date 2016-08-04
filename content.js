@@ -38,15 +38,17 @@
         item = $(data.history).filter(function () { return $(this).attr('data-peer') == dataPeer })
         item = item.last();
         $tooltip.html(item);
-        if (item.length > 0) {
-            if (hideTimer) {
-                clearTimeout(hideTimer)
-            }
-            clearTimeout(showTimer);
-            showTimer = setTimeout(function () {
-                $tooltip.show();
-            }, 300);
+
+        if (hideTimer) {
+            clearTimeout(hideTimer)
         }
+        clearTimeout(showTimer);
+        showTimer = setTimeout(function () {
+            if (item.length > 0) {
+                $tooltip.show();
+            }
+        }, 300);
+
     }
 
 
@@ -65,7 +67,7 @@
 
     $body.on('mouseenter', 'ul.im-page--dcontent .nim-dialog', function (event) {
         var target = $(event.target);
-        if (target.find('.nim-dialog--preview').length === 0){
+        if (target.find('.nim-dialog--preview').length === 0) {
             target = target.parents('.nim-dialog');
         }
         var classList = target.attr('class');
@@ -78,7 +80,7 @@
         $.when(sendRequest(dataPeer)).then(function (data) {
             processData(data);
         });
-        
+
     })
     $body.on('mouseleave', 'ul.im-page--dcontent .nim-dialog, .dialogs_row', function (event) {
         var e = event.toElement || event.relatedTarget;
@@ -102,7 +104,7 @@
     })
 
     $body.on('mouseleave', '.unread-message-tooltip', function (event) {
-        if(showTimer) {
+        if (showTimer) {
             clearTimeout(showTimer);
         }
         hideTimer = setTimeout(function () {
