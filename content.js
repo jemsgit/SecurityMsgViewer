@@ -39,8 +39,8 @@
             item;
         data = data.substr(from, to - from + 1);
         data = JSON.parse(data);
-        item = $(data.history).filter(function () { return $(this).attr('data-peer') == dataPeer })
-        item = item.last();
+        item = $(data.history).filter(function () { return ($(this).attr('data-peer') == dataPeer) || ($(this).find('[data-peer]').attr('data-peer') == dataPeer)  })
+        item = item.slice(-3);
 
         if (item.length > 0 && hideTimer) {
             clearTimeout(hideTimer)
