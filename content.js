@@ -36,11 +36,23 @@
     function processData(data) {
         var from = data.indexOf('{'),
             to = data.lastIndexOf('}'),
-            item;
+            allUnread,
+            items = [];
         data = data.substr(from, to - from + 1);
         data = JSON.parse(data);
-        item = $(data.history).filter(function () { return ($(this).attr('data-peer') == dataPeer) || ($(this).find('[data-peer]').attr('data-peer') == dataPeer)  })
-        item = item.slice(-3);
+        allUnread = $(data.history).filter(function () {
+            return $(this).hasClass("_im_unread_bar_row");
+        })
+
+        if (allUnread) {
+            for (var i = 0; i < allUnread.length; i++) {
+                var item = $(allUnread[i]);
+                item = item.next().next();
+                if (item.attr('data-peer') == dataPeer || item.find('[data-peer]').attr('data-peer') == dataPeer) {
+                    items.push(item);
+                }
+            }
+        }
 
         if (item.length > 0 && hideTimer) {
             clearTimeout(hideTimer)
