@@ -3,7 +3,9 @@
 
     "name": "SecurityMsgViewer",
     "version": "1.0",
-
+    "permissions": [
+          "storage"
+        ],
     "icons": {
         "128": "icons/128x128.png"
     },

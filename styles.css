@@ -1,6 +1,7 @@
 ﻿.unread-message-tooltip{
     position: fixed;
-    width:320px;
+    min-width:200px;
+    z-index:200;
     top: 100px;
     left:20px;
     display: none;

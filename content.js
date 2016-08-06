@@ -6,13 +6,16 @@
         showTimer,
         hideTimer,
         dataPeer,
-        showInterval = 300;
+        isShowing = false,
+        showInterval = 300,
+        hideInterval = 600;
 
-    if (!$tooltip.length) {
-        $tooltip = $('<div class = "' + elementClass + '"></div>');
-        $body.append($tooltip);
+    function setTooltip() {
+        if (!$tooltip.length) {
+            $tooltip = $('<div class = "' + elementClass + '"></div>');
+            $body.append($tooltip);
+        }
     }
-
 
     function sendRequest(dataPeer) {
         return $.ajax({
@@ -45,41 +48,43 @@
         if (showTimer) {
             clearTimeout(showTimer);
         }
-        showTimer = setTimeout(function () {
-            if (item.length > 0) {
-                $tooltip.html(item);
-                $tooltip.show();
-            }
-        }, showInterval);
+        if (isShowing) {
+            showTimer = setTimeout(function () {
+                if (item.length > 0) {
+                    $tooltip.html(item);
+                    $tooltip.show();
+                }
+            }, showInterval);
+        }
 
     }
 
-    function hideBlock(showTimerId) {
+    function hideBlock() {
         if (showTimer) {
             clearTimeout(showTimer);
         }
-        var hideTimer = setTimeout(function () {
+        if (hideTimer) {
+            clearTimeout(hideTimer);
+        }
+        hideTimer = setTimeout(function () {
             $tooltip.hide();
             $tooltip.html("");
-        }, showInterval)
-
-        return hideTimer;
+        }, hideInterval)
     }
 
-    $body.on('mouseenter', '.dialogs_row', function (event) {
+    var oldIntefaceMouseenter = function (event) {
         var target = $(event.target);
         if (target.find('table').length === 0) {
             target = target.parents('.dialogs_row');
         }
         dataPeer = target.attr('id').split('im_dialog')[1];
-
+        isShowing = true;
         $.when(sendRequest(dataPeer)).then(function (data) {
             processData(data);
         });
-    });
+    }
 
-
-    $body.on('mouseenter', 'ul.im-page--dcontent .nim-dialog', function (event) {
+    var newIntefaceMouseenter = function (event) {
         var target = $(event.target);
         if (target.find('.nim-dialog--preview').length === 0) {
             target = target.parents('.nim-dialog');
@@ -90,29 +95,80 @@
         }
 
         dataPeer = target.attr('data-peer');
-
+        isShowing = true;
         $.when(sendRequest(dataPeer)).then(function (data) {
             processData(data);
         });
+    }
 
-    })
-    $body.on('mouseleave', 'ul.im-page--dcontent .nim-dialog, .dialogs_row', function (event) {
+    var mouseLeaveHandler = function (event) {
         var e = event.toElement || event.relatedTarget;
         if (e && e.parentNode == this || e == this) {
             return;
         }
+        isShowing = false;
+        hideBlock();
+    }
 
-        hideTimer = hideBlock(showTimer);
-    })
-
-    $body.on('mouseenter', '.unread-message-tooltip', function (event) {
+    var tooltipMouseenter = function (event) {
         if (hideTimer) {
             clearTimeout(hideTimer)
         };
-    })
+        isShowing = true;
+    }
 
-    $body.on('mouseleave', '.unread-message-tooltip', function (event) {
-        hideTimer = hideBlock(showTimer);
-    })
+    var tooltipMouseleave = function (event) {
+        isShowing = false;
+        hideBlock();
+    }
+
+    function bindEvents() {
+
+        $body.on('mouseenter', '.dialogs_row', oldIntefaceMouseenter);
+        $body.on('mouseenter', 'ul.im-page--dcontent .nim-dialog', newIntefaceMouseenter);
+
+        $body.on('mouseleave', 'ul.im-page--dcontent .nim-dialog, .dialogs_row', mouseLeaveHandler)
+
+        $body.on('mouseenter', '.unread-message-tooltip', tooltipMouseenter);
+        $body.on('mouseleave', '.unread-message-tooltip', tooltipMouseleave);
+    }
+
+
+    function unbindEvents() {
+        $body.off('mouseenter', '.dialogs_row', oldIntefaceMouseenter);
+        $body.off('mouseenter', 'ul.im-page--dcontent .nim-dialog', newIntefaceMouseenter);
+
+        $body.off('mouseleave', 'ul.im-page--dcontent .nim-dialog, .dialogs_row', mouseLeaveHandler);
+
+        $body.off('mouseenter', '.unread-message-tooltip', tooltipMouseenter);
+        $body.off('mouseleave', '.unread-message-tooltip', tooltipMouseleave);
+    }
+
+    chrome.runtime.onMessage.addListener(
+        function (request, sender, sendResponse) {
+            if (request && request.state) {
+                setTooltip();
+                bindEvents();
+            } else {
+                unbindEvents();
+            }
+    });
+
+    var state;
+
+    chrome.storage.sync.get('SecurityMessageViewer', function (item) {
+        // Notify that we saved.
+        if (item) {
+            state = item['SecurityMessageViewer']
+        }
+
+        if (state) {
+            setTooltip();
+            bindEvents();
+        }
+    });
+
+    
+    
 
 })(jQuery)
