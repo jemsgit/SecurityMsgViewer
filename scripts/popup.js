@@ -1,6 +1,7 @@
 ﻿(function ($) {
     $(document).ready(function () {
-        var localStorageId = 'SecurityMessageViewer';
+        var localStorageId = 'SecurityMessageViewer',
+            iFrame = '<iframe frameborder="0" allowtransparency="true" scrolling="no" src="https://money.yandex.ru/embed/shop.xml?account=410013247085243&quickpay=shop&payment-type-choice=on&mobile-payment-type-choice=on&writer=seller&targets=%D0%9F%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C&targets-hint=&default-sum=20&button-text=03&successURL=" width="450" height="198"></iframe>';
 
         function setTextAndIcon(state) {
             if (state) {
@@ -25,9 +26,7 @@
             setTextAndIcon(!!state);
         });
 
-        $('.yandex_money_form').append(
-            '<iframe frameborder="0" allowtransparency="true" scrolling="no" src="https://money.yandex.ru/embed/shop.xml?account=410013247085243&quickpay=shop&payment-type-choice=on&mobile-payment-type-choice=on&writer=seller&targets=%D0%9F%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C&targets-hint=&default-sum=20&button-text=03&successURL=" width="450" height="198"></iframe>')
-        });
+        $('.yandex_money_form').append(iFrame);
 
         $('input#enable-checkbox').on('change', function (event) {
             var that = this;
@@ -38,8 +37,12 @@
             setTextAndIcon(that.checked);
         })
 
+        
+
+
         $('.donate_link').on('click', function(event){
             $('.yandex_money_form').toggleClass('active')
         })
+    })
 
 })(jQuery)
