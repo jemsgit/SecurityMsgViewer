@@ -1,8 +1,8 @@
 ﻿(function ($) {
     debugger;
     var $body = $('body'),
-        elementClass = 'unread-message-tooltip',
-        $tooltip = $body.find('.' + elementClass),
+        localStorageId = 'SecurityMessageViewer',
+        $tooltip = $body.find('.unread-message-tooltip'),
         showTimer,
         hideTimer,
         dataPeer,
@@ -12,7 +12,7 @@
 
     function setTooltip() {
         if (!$tooltip.length) {
-            $tooltip = $('<div class = "' + elementClass + '"></div>');
+            $tooltip = $('<div class = "unread-message-tooltip"></div>');
             $body.append($tooltip);
         }
     }
@@ -107,8 +107,7 @@
         if (target.find('.nim-dialog--preview').length === 0) {
             target = target.parents('.nim-dialog');
         }
-        var classList = target.attr('class');
-        if (classList.indexOf('_im_dialog') < 0) {
+        if (!target.hasClass('_im_dialog')) {
             target = target.parents('._im_dialog');
         }
 
@@ -172,12 +171,11 @@
             }
     });
 
-    var state;
 
-    chrome.storage.sync.get('SecurityMessageViewer', function (item) {
-        // Notify that we saved.
+    chrome.storage.sync.get(localStorageId, function (item) {
+        var state;
         if (item) {
-            state = item['SecurityMessageViewer']
+            state = item[localStorageId]
         }
 
         if (state) {

@@ -1,20 +1,25 @@
 ﻿{
     "manifest_version": 2,
 
-    "name": "SecurityMsgViewer",
+    "name": "Security Message Viewer",
     "version": "1.0",
+    "description": "Alows you to view new messages in vk.com & new.vk.com and stay them unread",
+    "author": "Evgeniy J",
     "permissions": [
-          "storage"
-        ],
+        "storage"
+    ],
     "icons": {
+        "16": "icons/16x16.png",
+        "32": "icons/32x32.png",
+        "48": "icons/48x48.png",
         "128": "icons/128x128.png"
     },
     "content_scripts": [
         {
             "run_at": "document_idle",
             "matches": [ "*://new.vk.com/*", "*://vk.com/*" ],
-            "js": [ "jquery-3.1.0.min.js", "content.js" ],
-            "css": [ "styles.css" ]
+            "js": [ "scripts/jquery-3.1.0.min.js", "scripts/content.js" ],
+            "css": [ "styles/styles.css" ]
         }
     ],
 
