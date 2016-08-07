@@ -47,14 +47,20 @@
         if (allUnread) {
             for (var i = 0; i < allUnread.length; i++) {
                 var item = $(allUnread[i]);
-                item = item.next().next();
-                if (item.attr('data-peer') == dataPeer || item.find('[data-peer]').attr('data-peer') == dataPeer) {
-                    items.push(item);
+                item = item.next();
+                if (item.hasClass('im-page--history-new-bar')) {
+                    item = item.next();
+                }
+                while (!item.hasClass('im-page--history-new-bar') && item.length !== 0) {
+                    if (item.attr('data-peer') == dataPeer || item.find('[data-peer]').attr('data-peer') == dataPeer) {
+                        items.push(item);
+                    }
+                    item = item.next();
                 }
             }
         }
 
-        if (item.length > 0 && hideTimer) {
+        if (items.length > 0 && hideTimer) {
             clearTimeout(hideTimer)
         }
         if (showTimer) {
@@ -62,8 +68,8 @@
         }
         if (isShowing) {
             showTimer = setTimeout(function () {
-                if (item.length > 0) {
-                    $tooltip.html(item);
+                if (items.length > 0) {
+                    $tooltip.html(items);
                     $tooltip.show();
                 }
             }, showInterval);

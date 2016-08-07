@@ -34,3 +34,10 @@
 .unread-message-tooltip .im-mess-stack .im-mess-stack--content .im-mess-stack--pname{
     left: 57px
 }
+
+.unread-message-tooltip a.im-mess-stack--lnk{
+    padding-left:10px;
+}
+.unread-message-tooltip .blind_label{
+    display:none;
+}
