@@ -74,7 +74,6 @@
                 }
             }, showInterval);
         }
-
     }
 
     function hideBlock() {
@@ -140,7 +139,6 @@
     }
 
     function bindEvents() {
-
         $body.on('mouseenter', '.dialogs_row', oldIntefaceMouseenter);
         $body.on('mouseenter', 'ul.im-page--dcontent .nim-dialog', newIntefaceMouseenter);
 
@@ -171,7 +169,6 @@
             }
     });
 
-
     chrome.storage.sync.get(localStorageId, function (item) {
         var state;
         if (item) {
@@ -183,8 +180,5 @@
             bindEvents();
         }
     });
-
-    
-    
 
 })(jQuery)
