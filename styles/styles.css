@@ -4,7 +4,7 @@
     max-width: 500px;
     z-index:200;
     top: 100px;
-    left:20px;
+    right:20%;
     display: none;
     word-wrap:break-word;
     background-color: white;

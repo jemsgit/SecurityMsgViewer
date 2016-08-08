@@ -1,4 +1,5 @@
 ﻿(function ($) {
+
     var $body = $('body'),
         localStorageId = 'SecurityMessageViewer',
         $tooltip = $body.find('.unread-message-tooltip'),
@@ -170,7 +171,10 @@
 
     chrome.storage.sync.get(localStorageId, function (item) {
         var state;
-        if (item) {
+        if (item[localStorageId] === undefined) {
+            state = true;
+            chrome.storage.sync.set({ 'SecurityMessageViewer': true }, function () { });
+        }else if (item) {
             state = item[localStorageId]
         }
 
