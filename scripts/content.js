@@ -3,6 +3,8 @@
     var $body = $('body'),
         localStorageId = 'SecurityMessageViewer',
         $tooltip = $body.find('.unread-message-tooltip'),
+        $contentArea = $body.find('.im-page'),
+        $messageArea = $contentArea.find('._im_page_history'),
         showTimer,
         hideTimer,
         dataPeer,
@@ -13,7 +15,12 @@
     function setTooltip() {
         if (!$tooltip.length) {
             $tooltip = $('<div class = "unread-message-tooltip"></div>');
-            $body.append($tooltip);
+            if ($contentArea[0]) {
+                $contentArea.append($tooltip)
+            } else {
+                $body.append($tooltip);
+            }
+            
         }
     }
 
@@ -70,6 +77,7 @@
             showTimer = setTimeout(function () {
                 if (items.length > 0) {
                     $tooltip.html(items);
+                    $messageArea.fadeTo('fast', 0.3);
                     $tooltip.show();
                 }
             }, showInterval);
@@ -85,6 +93,7 @@
         }
         hideTimer = setTimeout(function () {
             $tooltip.hide();
+            $messageArea.fadeTo('fast', 1);
             $tooltip.html("");
         }, hideInterval)
     }

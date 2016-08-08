@@ -18,6 +18,15 @@
     max-height: 70%;
 }
 
+.im-page .unread-message-tooltip{
+    position: absolute;
+    left: 320px;
+    top: 60px;
+    width: 535px;
+    max-width: 535px;
+    height: auto;
+}
+
 .unread-message-tooltip .im-mess{
     padding-right: 10px;
 }
