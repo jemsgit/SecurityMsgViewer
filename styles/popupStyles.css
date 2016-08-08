@@ -18,11 +18,12 @@
 
 .image-container {
   text-align: center;
-  padding: 4px;
+  padding: 8px;
 }
 
-.description-container {
-  
+.image-container img{
+    height: 90px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
 .checkbox-set{
@@ -30,9 +31,15 @@
     position: relative;
 }
 
-.checkbox-set .switch-title{
+.checkbox-set .switch-title,
+.description-container{
     font-size:16px;
 }
+
+.description-container{
+    text-align: center;
+}
+
 .checkbox-set .switch-checkbox{
     position: relative;
     display: inline-block;
