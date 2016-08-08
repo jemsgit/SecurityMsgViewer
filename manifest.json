@@ -2,8 +2,9 @@
     "manifest_version": 2,
 
     "name": "Security Message Viewer",
-    "version": "1.0",
-    "description": "Alows you to view new messages in vk.com & new.vk.com and stay them unread",
+    "short_name":  "SMV",
+    "version": "1.2",
+    "description": "Allows you to view new messages in vk.com & new.vk.com and stay them unread",
     "author": "Evgeniy J",
     "permissions": [
         "storage"

@@ -1,5 +1,4 @@
 ﻿(function ($) {
-    debugger;
     var $body = $('body'),
         localStorageId = 'SecurityMessageViewer',
         $tooltip = $body.find('.unread-message-tooltip'),
