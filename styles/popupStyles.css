@@ -1,5 +1,5 @@
 ﻿body{
-    min-width: 150px;
+    min-width: 250px;
     margin:4px;
 }
 
@@ -11,9 +11,18 @@
     border-radius: 2px;
 }
 
-.header h1{
+.header h3{
     margin: 2px;
     color: white;
+}
+
+.image-container {
+  text-align: center;
+  padding: 4px;
+}
+
+.description-container {
+  
 }
 
 .checkbox-set{
