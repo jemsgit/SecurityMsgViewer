@@ -1,0 +1,16 @@
+{
+	"popup_donate":{
+		"message":"Donate",
+		"description":"Donate button"
+	},
+
+	"popup_enable":{
+		"message":"Enable extention for viewing msgs",
+		"description":"Enable extention label"
+	},
+
+	"app_description": {
+		"message":"Allows you to view new messages in vk.com & new.vk.com and stay them unread",
+		"description":"The description of the application, displayed in the web store."
+	}
+}
