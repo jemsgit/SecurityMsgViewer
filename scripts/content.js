@@ -3,7 +3,7 @@
         var $body = $('body'),
             localStorageId = 'SecurityMessageViewer',
             $tooltip = $body.find('.unread-message-tooltip'),
-            $contentArea = $body.find('.im-page'),
+            $contentArea = $body.find('.im-page:not(.im-page_classic)'),
             $messageArea = $contentArea.find('._im_page_history'),
             showTimer,
             hideTimer,
