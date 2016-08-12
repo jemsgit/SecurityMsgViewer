@@ -1,10 +1,8 @@
 ﻿.unread-message-tooltip{
-    position: fixed;
+    position: absolute;
     min-width:200px;
     max-width: 500px;
     z-index:200;
-    top: 130px;
-    right:20%;
     display: none;
     word-wrap:break-word;
     background-color: white;
@@ -16,15 +14,6 @@
     overflow-y: auto;
     text-overflow: ellipsis;
     max-height: 70%;
-}
-
-.im-page .unread-message-tooltip{
-    position: absolute;
-    left: 320px;
-    top: 60px;
-    width: 535px;
-    max-width: 535px;
-    height: auto;
 }
 
 .unread-message-tooltip li{
