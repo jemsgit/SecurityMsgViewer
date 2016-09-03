@@ -3,8 +3,6 @@
         var $body = $('body'),
             localStorageId = 'SecurityMessageViewer',
             $tooltip = $body.find('.unread-message-tooltip'),
-            $contentArea = $body.find('.im-page:not(.im-page_classic)'),
-            $messageArea = $contentArea.find('._im_page_history'),
             showTimer,
             hideTimer,
             dataPeer,
@@ -139,7 +137,7 @@
             };
         }
 
-        function sendRequest(dataPeer) {
+        function sendRequest(dataPeer, msgId) {
             return $.ajax({
                 url: "https://vk.com/al_im.php",
                 method: 'post',
@@ -149,38 +147,55 @@
                     block: true,
                     gid: 0,
                     history: true,
-                    msgid: false,
+                    msgid: msgId,
                     peer: dataPeer
                 }
             })
         }
 
-        function processData(data, event) {
+        function processData(event, data, mesgId) {
             var from = data.indexOf('{'),
                 to = data.lastIndexOf('}'),
                 allUnread,
+                searchMessage,
                 items = [];
             data = data.substr(from, to - from + 1);
             data = JSON.parse(data);
-            allUnread = $(data.history).filter(function () {
-                return $(this).hasClass("_im_unread_bar_row");
-            })
+            if (!mesgId) {
+                allUnread = $(data.history).filter(function () {
+                    return $(this).hasClass("_im_unread_bar_row");
+                })
 
-            if (allUnread) {
-                for (var i = 0; i < allUnread.length; i++) {
-                    var item = $(allUnread[i]);
-                    item = item.next();
-                    if (item.hasClass('im-page--history-new-bar')) {
+                if (allUnread) {
+                    for (var i = 0; i < allUnread.length; i++) {
+                        var item = $(allUnread[i]);
                         item = item.next();
-                    }
-                    while (!item.hasClass('im-page--history-new-bar') && item.length !== 0) {
-                        if (item.attr('data-peer') == dataPeer || item.find('[data-peer]').attr('data-peer') == dataPeer) {
-                            items.push(item);
+                        if (item.hasClass('im-page--history-new-bar')) {
+                            item = item.next();
                         }
-                        item = item.next();
+                        while (!item.hasClass('im-page--history-new-bar') && item.length !== 0) {
+                            if (item.attr('data-peer') == dataPeer || item.find('[data-peer]').attr('data-peer') == dataPeer) {
+                                items.push(item);
+                            }
+                            item = item.next();
+                        }
                     }
                 }
+            } else {
+                searchMessage = $(data.history).filter(function () {
+                    var messages = $(this).find(".im-mess._im_mess");
+                    for (var i = 0; i < messages.length; i++) {
+                        if ($(messages[i]).attr('data-msgId') == mesgId){
+                            return $(messages[i]);
+                        }
+                    }
+                })
+
+                if (searchMessage.length > 0) {
+                    items.push(searchMessage);
+                }
             }
+
 
             if (items.length > 0 && hideTimer) {
                 clearTimeout(hideTimer)
@@ -208,25 +223,14 @@
             }
             hideTimer = setTimeout(function () {
                 $tooltip.hide();
-                $messageArea.fadeTo('fast', 1);
                 $tooltip.html("");
             }, hideInterval)
         }
 
-        var oldIntefaceMouseenter = function (event) {
-            var target = $(event.target);
-            if (target.find('table').length === 0) {
-                target = target.parents('.dialogs_row');
-            }
-            dataPeer = target.attr('id').split('im_dialog')[1];
-            isShowing = true;
-            $.when(sendRequest(dataPeer)).then(function (data) {
-                processData(data, event);
-            });
-        }
-
         var newIntefaceMouseenter = function (event) {
-            var target = $(event.target);
+            var target = $(event.target),
+                mesgId = false;
+
             if (target.find('.nim-dialog--preview').length === 0) {
                 target = target.parents('.nim-dialog');
             }
@@ -234,10 +238,13 @@
                 target = target.parents('._im_dialog');
             }
 
+            if ($body.find('.im-page--dialogs_with-mess')[0]) {
+                mesgId = target.attr('data-msgid');
+            }
             dataPeer = target.attr('data-peer');
             isShowing = true;
-            $.when(sendRequest(dataPeer)).then(function (data) {
-                processData(data, event);
+            $.when(sendRequest(dataPeer, mesgId)).then(function (data) {
+                processData(event, data, mesgId);
             });
         }
 
@@ -268,7 +275,6 @@
         }
 
         function bindEvents() {
-            $body.on('mouseenter', '.dialogs_row', oldIntefaceMouseenter);
             $body.on('mouseenter', 'ul.im-page--dcontent .nim-dialog', newIntefaceMouseenter);
 
             $body.on('mouseleave', 'ul.im-page--dcontent .nim-dialog, .dialogs_row', mouseLeaveHandler);
@@ -280,7 +286,6 @@
 
 
         function unbindEvents() {
-            $body.off('mouseenter', '.dialogs_row', oldIntefaceMouseenter);
             $body.off('mouseenter', 'ul.im-page--dcontent .nim-dialog', newIntefaceMouseenter);
 
             $body.off('mouseleave', 'ul.im-page--dcontent .nim-dialog, .dialogs_row', mouseLeaveHandler);
