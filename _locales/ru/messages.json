@@ -10,7 +10,7 @@
 	},
 
 	"app_description": {
-		"message":"Позволяет смотреть новые сообщения в vk.com и new.vk.com остявляя их не прочитанными",
+		"message":"Позволяет просматривать новые сообщения в vk.com, остявляя их не прочитанными. Не требует логин/пароль",
 		"description":"The description of the application, displayed in the web store."
 	}
 }
