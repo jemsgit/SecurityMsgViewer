@@ -42,3 +42,7 @@
 .unread-message-tooltip .blind_label{
     display:none;
 }
+
+.unread-message-tooltip .im-mess-stack--pname{
+    white-space: nowrap;
+}
