@@ -11,11 +11,11 @@
             isShowing = false,
             showInterval = 300,
             hideInterval = 600,
-            TOP_DIRECTION = 'top',
-            BOTTOM_DIRECTION = 'bottom',
-            LEFT_DIRECTION = 'left',
-            RIGHT_DIRECTION = 'right',
-            TOOLTIP_DIRECTIONS = [TOP_DIRECTION, BOTTOM_DIRECTION, LEFT_DIRECTION, RIGHT_DIRECTION];
+            RIGHT_AND_BOTTOM = 'right_and_bottom',
+            RIGHT_AND_TOP = 'right_and_top',
+            LEFT_AND_BOTTOM = 'left_aand_bottom',
+            LEFT_AND_TOP = 'left_and_top',
+            TOOLTIP_DIRECTIONS = [RIGHT_AND_BOTTOM, RIGHT_AND_TOP, LEFT_AND_BOTTOM, LEFT_AND_TOP];
 
         function setTooltip() {
             if (!$tooltip.length) {
@@ -75,8 +75,8 @@
 
 
         function calculateDirection(context) {
-            var x = context.eventX,
-                y = context.eventY;
+            var x = context.x,
+                y = context.y;
             var containerHeight = context.containerHeight;
             var containerWidth = context.containerWidth;
             var tooltipWidth = context.tooltipWidth;
@@ -86,45 +86,52 @@
             var hasSpaceBefore = (x - Math.round((tooltipWidth - elementWidth) / 2)) >= 0;
             var hasSpaceAfter = (x + elementWidth + Math.round((tooltipWidth - elementWidth) / 2)) < containerWidth;
             if (hasSpaceBefore && hasSpaceAfter) {
-                if (y + elementHeight + tooltipHeight < containerHeight) {
-                    return BOTTOM_DIRECTION;
+                if (y + elementHeight + tooltipHeight < containerHeight || y - tooltipHeight < 0) {
+                    return RIGHT_AND_BOTTOM;
                 }
-                return TOP_DIRECTION;
+                return RIGHT_AND_TOP;
             } else if (x - tooltipWidth >= 0) {
-                return LEFT_DIRECTION;
+                if (y + elementHeight + tooltipHeight < containerHeight) {
+                    return LEFT_AND_BOTTOM;
+                }
+                return LEFT_AND_TOP;
             } else if (x + elementWidth + tooltipWidth < containerWidth) {
-                return RIGHT_DIRECTION;
+                if (y + elementHeight + tooltipHeight < containerHeight) {
+                    return RIGHT_AND_BOTTOM;
+                }
+                return RIGHT_AND_TOP;
             }
-            return BOTTOM_DIRECTION;
+            return RIGHT_AND_BOTTOM;
         }
 
         function calculatePosition(context) {
-            var x = context.eventX,
-                y = context.eventY;
-
-            var tooltipWidth = context.tooltipWidth,
-                tooltipHeight = context.tooltipHeight;
-            var elementWidth = context.elementWidth,
-                elementHeight = context.elementHeight;
-            var positionX = x;
-            var positionY = y;
-            var direction = context.direction;
+            var offset = 5,
+                x = context.x,
+                y = context.y,
+                tooltipWidth = context.tooltipWidth,
+                tooltipHeight = context.tooltipHeight,
+                elementWidth = context.elementWidth,
+                elementHeight = context.elementHeight,
+                positionX = x,
+                positionY = y,
+                direction = context.direction;
             switch (direction) {
-                case BOTTOM_DIRECTION:
-                    //positionX -= Math.round(tooltipWidth / 2);
-                    positionY += elementHeight;
+                case RIGHT_AND_BOTTOM:
+                    positionX += elementWidth - offset;
+                    positionY += elementHeight - offset;
                     break;
-                //case TOP_DIRECTION:
-                //    //positionX -= Math.round(tooltipWidth / 2);
-                //    positionY -= (tooltipHeight);
-                //    break;
-                //case LEFT_DIRECTION:
-                //    //positionX -= (tooltipWidth);
-                //    positionY -= Math.round(elementHeight);
-                //    break;
-                //case RIGHT_DIRECTION:
-                //    positionY -= Math.round(elementHeight);
-                //    break;
+                case RIGHT_AND_TOP:
+                    positionX += elementWidth - offset;
+                    positionY -= tooltipHeight + offset;
+                    break;
+                case LEFT_AND_BOTTOM:
+                    positionX -= tooltipWidth + offset;
+                    positionY += elementHeight - offset;
+                    break;
+                case LEFT_AND_TOP:
+                    positionX -= tooltipWidth + offset;
+                    positionY -= tooltipHeight + offset;
+                    break;
             }
             return {
                 x: positionX,
@@ -134,7 +141,7 @@
 
         function sendRequest(dataPeer) {
             return $.ajax({
-                url: "https://new.vk.com/al_im.php",
+                url: "https://vk.com/al_im.php",
                 method: 'post',
                 data: {
                     act: 'a_start',
