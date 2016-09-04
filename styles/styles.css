@@ -2,14 +2,14 @@
     position: absolute;
     min-width:200px;
     max-width: 500px;
-    z-index:200;
+    z-index:1500;
     display: none;
     word-wrap:break-word;
     background-color: white;
     border: 1px #507299 solid;
     border-radius:5px;
     box-shadow: 0 0 10px rgba(80, 114, 153, 0.5);
-    padding:10px;
+    padding:2px;
     overflow-x: hidden;
     overflow-y: auto;
     text-overflow: ellipsis;
