@@ -163,7 +163,7 @@
             data = JSON.parse(data);
             if (!mesgId) {
                 allUnread = $(data.history).filter(function () {
-                    return $(this).hasClass("_im_unread_bar_row");
+                    return $(this).hasClass("_im_unread_bar_row") || $(this).hasClass("_im_invisible_bar");
                 })
 
                 if (allUnread) {
@@ -278,7 +278,7 @@
             $body.on('mouseenter', 'ul.im-page--dcontent .nim-dialog', newIntefaceMouseenter);
 
             $body.on('mouseleave', 'ul.im-page--dcontent .nim-dialog, .dialogs_row', mouseLeaveHandler);
-            $('ul.im-page--dcontent .nim-dialog').on('click', mouseClickHandler);
+            $('ul.im-page--dcontent .nim-dialog', 'a').on('click', mouseClickHandler);
 
             $body.on('mouseenter', '.unread-message-tooltip', tooltipMouseenter);
             $body.on('mouseleave', '.unread-message-tooltip', tooltipMouseleave);
@@ -289,7 +289,7 @@
             $body.off('mouseenter', 'ul.im-page--dcontent .nim-dialog', newIntefaceMouseenter);
 
             $body.off('mouseleave', 'ul.im-page--dcontent .nim-dialog, .dialogs_row', mouseLeaveHandler);
-            $('ul.im-page--dcontent .nim-dialog').off('click', mouseClickHandler);
+            $('ul.im-page--dcontent .nim-dialog', 'a').off('click', mouseClickHandler);
 
             $body.off('mouseenter', '.unread-message-tooltip', tooltipMouseenter);
             $body.off('mouseleave', '.unread-message-tooltip', tooltipMouseleave);
