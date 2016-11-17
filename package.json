@@ -1,0 +1,26 @@
+{
+  "name": "security_mes_viewer",
+  "version": "1.3.8",
+  "description": "![Logo](icons/128x128.png)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jemsgit/SecurityMsgViewer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jemsgit/SecurityMsgViewer/issues"
+  },
+  "homepage": "https://github.com/jemsgit/SecurityMsgViewer#readme",
+  "devDependencies": {
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-clean": "0.3.2",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-inject": "4.1.0",
+    "gulp-minify": "0.0.14"
+  }
+}

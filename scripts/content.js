@@ -278,8 +278,14 @@
             $body.on('mouseenter', 'ul.im-page--dcontent .nim-dialog', newIntefaceMouseenter);
 
             $body.on('mouseleave', 'ul.im-page--dcontent .nim-dialog, .dialogs_row', mouseLeaveHandler);
-            $('ul.im-page--dcontent .nim-dialog', 'a').on('click', mouseClickHandler);
 
+            $('.im-page--history, ._im_name_el, .im-page--simple-name, .im-page--toolsw, .im-page--header-inner .im-page--header-chat').bind('DOMNodeInserted', function(event){
+                console.log('got');
+                mouseClickHandler(event);
+            });
+            $('.im-page js-im-page').on('click', function(){
+                console.log(111111);
+            })
             $body.on('mouseenter', '.unread-message-tooltip', tooltipMouseenter);
             $body.on('mouseleave', '.unread-message-tooltip', tooltipMouseleave);
         }
@@ -289,7 +295,8 @@
             $body.off('mouseenter', 'ul.im-page--dcontent .nim-dialog', newIntefaceMouseenter);
 
             $body.off('mouseleave', 'ul.im-page--dcontent .nim-dialog, .dialogs_row', mouseLeaveHandler);
-            $('ul.im-page--dcontent .nim-dialog', 'a').off('click', mouseClickHandler);
+
+            $('._im_name_el, .im-page--peer').unbind('DOMNodeInserted', mouseClickHandler);
 
             $body.off('mouseenter', '.unread-message-tooltip', tooltipMouseenter);
             $body.off('mouseleave', '.unread-message-tooltip', tooltipMouseleave);
